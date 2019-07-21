@@ -29,7 +29,7 @@ userRoutes.post('/users', async (req,res) => { //Create new user
         emailUser.sendWelcome(user.email, user.name)
         res.status(201).send({ user, token })
     } catch (e) {
-        res.status(400).send({ error: e })
+        res.status(400).send()
     }
 })
 userRoutes.post('/users/login', async (req,res) => { //Login
@@ -38,8 +38,7 @@ userRoutes.post('/users/login', async (req,res) => { //Login
         const token = await user.generateAuthToken()
         res.send({user, token})
     } catch (e) {
-        console.log(e)
-        res.status(400).send(e)
+        res.status(400).send()
     }
 })
 userRoutes.post('/users/logout', auth, async (req,res) => { //Logout of current session
@@ -82,7 +81,7 @@ userRoutes.patch('/users/me', auth, async (req,res) => { //Update user profile
         await req.user.save()
         res.send(req.user)
     } catch (e) {
-        res.status(500).send({ error: e })
+        res.status(500).send()
     }
 })
 userRoutes.delete('/users/me', auth, async (req,res) => { // Delete user profile and all associated tasks
@@ -91,7 +90,7 @@ userRoutes.delete('/users/me', auth, async (req,res) => { // Delete user profile
         emailUser.sendCancel(req.user.email, req.user.name)
         res.send(req.user)
     } catch (e) {
-        res.status(500).send({ error: e })
+        res.status(500).send()
     }
 })
 userRoutes.post('/users/me/avatar', auth, avatar.single('avatar'), async (req, res) => { // Upload user avatar
